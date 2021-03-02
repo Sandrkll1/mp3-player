@@ -7,6 +7,8 @@ from threading import Thread
 
 clock = pygame.time.Clock()
 
+screen = pygame.Surface((250, 400))
+
 def vertical(size, startcolor, endcolor):
     """
     Draws a vertical linear gradient filling the entire surface. Returns a
@@ -91,7 +93,10 @@ music_list = []
 #start position y for playlist
 play_lists_y = 50
 play_playlist = False
+
 #playlist class
+button_add_playlist = Button.rect_button(screen, 25, 10, 20,20, (0,0,0))
+btn_back = Button.round_button(screen, 222, 20, 23 , (0,0,0), 1)
 class PlayList():
 	def __init__(self, name, x, y, tracks, num, addd=False):
 		self.name = name
@@ -140,12 +145,12 @@ class PlayList():
 
 	#method to run the class
 	def main(win, music_list1):
-		global music_list, num, Theme
+		global music_list, num, Theme, screen, button_add_playlist
+
+		screen = win
 
 		if music_list == []:
 			music_list = music_list1
-
-		button_add_playlist = Button.rect_button(win, 25, 10, 20,20, (0,255,240))
 
 		win.blit(back_ground, (0,0))
 		if Theme == 'gradient' or Theme == 'white':
@@ -172,16 +177,8 @@ class PlayList():
 
 	#function to exit the class
 	def exite(win):
-		global play_lists_y, Theme
+		global play_lists_y, Theme, btn_back
 
-		keys = pygame.key.get_pressed()
-
-		if Theme == 'gradient':
-			btn_back = Button.round_button(win, 222, 20, 23 , (0,255,240), 1)
-		if Theme == 'white':
-			btn_back = Button.round_button(win, 222, 20, 23 , (255,255,255), 1)
-		if Theme == 'dark':
-			btn_back = Button.round_button(win, 222, 20, 23 , (41,42,41), 1)
 		win.blit(back2, (205,7))
 		if Button.click_button_round(btn_back) == True: 
 			music_list = []
@@ -310,8 +307,10 @@ def print_text(win, massage, x, y, font_color=None, font_type=shrift, font_size=
 		pass
 
 #makes an input and text field and only syncs created playlists
+exite_to_play = Button.rect_button(screen, 3, 10, 25,25, (0,0,0), 1)
+btn_OK = Button.rect_button(screen,210, 10, 25,25,(0,0,0), 1)
 def input_text(screen):
-	global Theme, music_class_list
+	global Theme, music_class_list, exite_to_play, btn_OK
 
 	font = shrift
 	input_box = pygame.Rect(15, 40, 220, 32)
@@ -364,9 +363,6 @@ def input_text(screen):
 						if render_text_x + txt_surface.get_size()[0] > 200:
 							render_text_x -= 25
 
-		exite_to_play = Button.rect_button(screen, 3, 10, 25,25, (0,0,0), 1)
-		btn_OK = Button.rect_button(screen,210, 10, 25,25,(0,0,0), 1)
-
 		screen.blit(back_ground2, (0,0))
 
 		keys = pygame.key.get_pressed()
@@ -380,7 +376,6 @@ def input_text(screen):
 			pygame.draw.rect(screen, (41,42,41), (0,40,15,32))
         # Blit the input_box rect.
 		pygame.draw.rect(screen, color, input_box, 2)
-
 
 		#buttom back
 		screen.blit(back, (-2,9))
@@ -674,7 +669,13 @@ def redact_playlist(win, tracks, name):
 	text = name 
 	render_text_x = 17
 
-
+	#buttons
+	exite_to_play = Button.rect_button(win, 220, 10, 25,25, (10,10,10),1)
+	btn_remove_track = Button.rect_button(win, 35,363, 25,25, (230,0,0), 1)
+	btn_add = Button.rect_button(win, 120, 363, 25, 25, (230,0,0), 1)
+	btn_play = Button.rect_button(win, 200, 363, 25, 25, (230,0,0), 1)
+	btn_ok = Button.rect_button(win, 30, 365, 25, 25, (230,0,0), 1)
+	exite_to_add = Button.rect_button(win, 220, 10, 25,25, (10,10,10),1)
 
 	while redact:
 
@@ -687,11 +688,6 @@ def redact_playlist(win, tracks, name):
 		mouse_x, mouse_y = pos[0], pos[1]
 		MOUSE_CLICK = pygame.mouse.get_pressed()
 
-
-		exite_to_play = Button.rect_button(win, 220, 10, 25,25, (10,10,10),1)
-		btn_remove_track = Button.rect_button(win, 35,363, 25,25, (230,0,0), 1)
-		btn_add = Button.rect_button(win, 120, 363, 25, 25, (230,0,0), 1)
-		btn_play = Button.rect_button(win, 200, 363, 25, 25, (230,0,0), 1)
 		win.blit(back_ground3, (0,0))
 
 
@@ -761,9 +757,6 @@ def redact_playlist(win, tracks, name):
 				font_type = pygame.font.Font(font, 25)
 				txt_surface = font_type.render(text, True, txt_surface_color)
 
-
-				btn_ok = Button.rect_button(win, 30, 365, 25, 25, (230,0,0), 1)
-				exite_to_add = Button.rect_button(win, 220, 10, 25,25, (10,10,10),1)
 				win.blit(back_ground4, (0,0))
 				
 				for event in pygame.event.get():
