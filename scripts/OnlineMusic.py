@@ -11,6 +11,7 @@ import Sound
 pygame.font.init()
 clock = pygame.time.Clock()
 
+screen = pygame.Surface((250, 400))
 
 def vertical(size, startcolor, endcolor):
     """
@@ -126,6 +127,8 @@ class OnlineMusic:
 
 	#class launch
 	def main(win):
+		global screen
+		screen = win
 		OnlineMusic.clear_cash()
 		parse_music()
 		OnlineMusic.play_music()
@@ -415,22 +418,13 @@ def input_text(screen):
 
 
 #button mapping
+btn_next = Button.round_button(screen,210,320,23,(0,0,0), 1)
+btn_last = Button.round_button(screen,40,320, 23, (0,0,0), 1)
 def Art(win):
-	global Theme
-
+	global btn_next, btn_last
 	keys = pygame.key.get_pressed()
 
-	if Theme == 'gradient':
-		btn_all_color = (0,255,50)
-	if Theme == "white":
-		btn_all_color = (255,255,255)
-	if Theme == 'dark':
-		btn_all_color = (41,42,41)
-
-	btn_next = Button.round_button(win,210,320,23,btn_all_color, 1)
-	btn_last = Button.round_button(win,40,320, 23, btn_all_color, 1)
 	win.blit(back_ground, (0,0))
-
 	
 	win.blit(last_button, (20,301))
 	win.blit(next_button,(195,301))
@@ -623,19 +617,9 @@ def make_list_win(win):
 
 #pause
 pause_on = False
+btn_pause = Button.round_button(screen,127,321,25,(0,0,0), 1)
 def pause(win):
-	global pause_on,Theme
-
-	if Theme == 'gradient':
-		btn_all_color = (0,255,50)
-	if Theme == "white":
-		btn_all_color = (255,255,255)
-	if Theme == 'dark':
-		btn_all_color = (41,42,41)
-
-	keys = pygame.key.get_pressed()
-
-	btn_pause = Button.round_button(win,127,321,31,btn_all_color, 1)
+	global pause_on,Theme, btn_pause
 
 	if pause_on ==False:
 		pause_button_on = pause_button
@@ -833,19 +817,12 @@ def Art_text(win):
 
 #stir function
 peremotka_on = False
+btn_random = Button.round_button(screen,201, 367, 15, (0,0,0), 1)
 def random_list(win):
-	global peremotka_on, num_music, music_list, text_x, music_time_now_test, peremotka, Theme
+	global peremotka_on, num_music, music_list, text_x, music_time_now_test, peremotka, Theme, btn_random
 
 	keys = pygame.key.get_pressed()
 
-	if Theme == 'gradient':
-		btn_all_color = (0,255,50)
-	if Theme == "white":
-		btn_all_color = (255,255,255)
-	if Theme == 'dark':
-		btn_all_color = (41,42,41)
-
-	btn_random = Button.round_button(win,201, 370, 22, btn_all_color, 1)
 	if peremotka_on == False:
 		peremotkaimg = peremeshat1
 	if peremotka_on == True:
@@ -875,21 +852,12 @@ def random_list(win):
 
 #repeat function 
 povtor_on = False
+btn_povtor = Button.round_button(screen,37, 367, 15, (0,0,0), 1)
 def povtor(win):
 	global povtor_on, peremotka, Theme
 
 	keys = pygame.key.get_pressed()
 
-	if Theme == 'gradient':
-		btn_all_color = (0,255,50)
-	if Theme == "white":
-		btn_all_color = (255,255,255)
-	if Theme == 'dark':
-		btn_all_color = (41,42,41)
-
-
-
-	btn_povtor = Button.round_button(win,37, 371, 22, btn_all_color, 1)
 	if povtor_on == False:
 		povtoimg = povtor1
 	if povtor_on == True:
