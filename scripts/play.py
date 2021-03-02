@@ -12,6 +12,7 @@ from threading import Thread
 from PlayList import PlayList
 from Button import Button
 from OnlineMusic import OnlineMusic
+import win32api
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -150,11 +151,13 @@ class Dict():
 			for file in glob(name + '\\OnlineMusic\\*.mp3'):
 				music_list.append(file)
 
-		# search in all directories that are in this tuple
-		dicter = ('A', 'B', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')	
-		for dicte in dicter:
-			if os.path.exists(dicte + ':/') == True:
-				for rootdir, dirs, files in os.walk(dicte + ':\\'):
+		# search in all directories that are in this tuple	
+		drives = win32api.GetLogicalDriveStrings()
+		drives = drives.split('\000')[:-1]
+		drives.pop(drives.index(name.split("\\")[0] + "\\"))
+		for dicte in drives:
+			if os.path.exists(dicte) == True:
+				for rootdir, dirs, files in os.walk(dicte):
 					for file in files:
 						if file.split('.')[-1] =='mp3':
 							music_list.append(os.path.join(rootdir, file))
@@ -521,8 +524,10 @@ def povtor():
 
 
 #draws rewind buttons, is responsible for pressing and action of rewind and forward buttons
+btn_last = Button.round_button(win,40,320, 22, (0,0,0))
+btn_next = Button.round_button(win,210,320,22,(0,0,0))
 def Art():
-	global Theme
+	global Theme, btn_last, btn_next
 	keys = pygame.key.get_pressed()
 
 	if keys[pygame.K_q]:
@@ -537,10 +542,6 @@ def Art():
 		Theme = 'dark'
 		Themes()
 		pygame.display.update()
-
-
-	btn_last = Button.round_button(win,40,320, 22, (0,0,0))
-	btn_next = Button.round_button(win,210,320,22,(0,0,0))
 
 	win.blit(back_ground, (0,0))
 
