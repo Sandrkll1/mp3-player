@@ -1,4 +1,4 @@
-import pygame
+importimport pygame
 from Button import Button
 import sys
 import os, time
@@ -505,23 +505,22 @@ music_class_list = []
 class Dict():
 
 	def __init__(self, win, x, y, text, index_num, full_name, ok):
-		global Theme
 		self.x = x
 		self.y = y	
+		self.height = 28
 		self.text = text
 		self.index_num = index_num
 		self.full_name = full_name
 		self.ok = ok
-		self.button = Button.button_text(win, '', self.x, self.y + 7, 220, 28, font_color=(255,255,255), font_size=16)
+		self.button = Button.button_text(win, '', self.x, self.y + 7, 220, self.height, font_color=(255,255,255), font_size=16)
 		font_type = pygame.font.Font( shrift, 16 )
 		self.font = font_type.render( self.text, True, (0,0,0) )
 		self.Theme = 'white'
 
 	def music_button(self, win):
 		global num_music, text_x, peremotka_on, Theme
-		height = 28
 
-		keys = pygame.key.get_pressed()
+		self.button = Button.button_text(win, '', self.x, self.y + 7, 220, self.height, font_color=(255,255,255), font_size=16)
 
 		text = str(self.index_num + 1) + ". " + self.text
 
@@ -532,7 +531,7 @@ class Dict():
 		if Theme == 'white':
 			self.font_color = (0,0,0)
 
-		pygame.draw.rect(win, self.font_color, (self.x,self.y + height - 2,220,1))
+		pygame.draw.rect(win, self.font_color, (self.x,self.y + self.height - 2,220,1))
 
 		try:
 			if Theme != self.Theme or self.font.get_size()[0] > 220 or self.font == None:
@@ -564,15 +563,15 @@ class Dict():
 				if Button.button_text_click(liste.button) == True:
 					if liste.ok == True:
 						liste.ok = False
-						time.sleep(0.4)
+						time.sleep(0.1)
 					elif liste.ok == False:
 						liste.ok = True
-						time.sleep(0.4)
+						time.sleep(0.1)
 
 
 		for liste in music_class_list:
 			if liste.ok == True:
-				if liste.y + height >= 78 and liste.y + height <= 378:
+				if liste.y + liste.height >= 78 and liste.y + liste.height <= 378:
 					pygame.draw.circle(win, (0,255,0), (liste.x - 8, liste.y + 10), 7)
 
 	#scrolling songs
