@@ -284,7 +284,7 @@ def parse_music(name=''):
 			if name != "":
 				music_list.append({
 					"name" : name,
-					"url" : siteUrl + url.replace("\n", "")
+					"url" : siteUrl + url.replace("\n", "").replace('<button classtrackItem__playStop btn-play mz-3 title', "")
 					})
 
 		music_list2 = music_list.copy()
